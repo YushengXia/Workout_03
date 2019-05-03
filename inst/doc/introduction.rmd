@@ -1,0 +1,107 @@
+---
+title: "Introduction to Package binomial"
+author: "Yusheng Xia"
+date: "5/3/2019"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Package binomial}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(binomial)
+```
+
+## Binomial Package
+
+The package '"Binomial"' is a package that contains many functions that relate to the famous binomial probability distribution. The package contains five main functions:
+  
+  - bin_choose(n, k) to calculate the number of combinations in which *k* successes can occur in *n* trials.
+  - bin_probability(k, n, p) to calculate the probability of getting *k* successes in *n* trials with a *p* success probability.
+  - bin_distribution(n, p) to return a dataframe of class '"bindis"' that has number of successes (up to n) in first column and probability of success number in second.
+  - bin_cumulative(n, p) to return a dataframe of class '"bincum"' that is the same as bin_distribution() but also contains a column of cumulative probability.
+  - bin_var(n, p) to return a named list of class '"binvar"' that contains the number of trials *n* and probability of success *p*.
+  
+In addition, the package also contains various methods that allow for easy plotting and summary functions to be displayed to users.
+
+## bin_choose()
+
+The bin_choose(n, k) function allows a user to see the total number of possible combinations of getting *k* successes in *n* trials.
+
+```{r}
+#Possible combinations in 4 trials with 3 successes.
+bin_choose(4, 3)
+```
+
+In order for bin_choose(n, k) to be successfully run, n must be a positive integer number while k must be a positive integer less than or equal to n.
+
+## bin_probability()
+
+The bin_probability(k, n, p) function allows a user to calculate the probability of getting *k* successes given *n* trials and probability *p* of a single success.
+
+```{r}
+#Proability of getting 4 successes in 5 trials with a probability 0.2 of success
+bin_probability(4, 5, 0.2)
+```
+
+Bin_probability(k, n, p) has the same limitations on inputs *n* and *p* as on bin_choose(n, p), and the input *k* must be a integer greater than or equal to 0 that is also less than or equal to *n*.
+
+## bin_distribution()
+
+The bin_distribution(n, p) function returns a dataframe that contains two columns, one column that shows all possible successes leading to *n*, and another that has the probability of each possible success number with the probability of one success given by *p*.
+
+```{r}
+#Dataframe of possible successes in 5 trials and 0.3 success per trial.
+bin_distribution(5, 0.3)
+```
+
+After creating the dataframe, users can call the method *plot* to plot a bargraph of the dataframe given that the dataframe is of class '"bindis"'.
+
+```{r}
+#Bar graph of possible successes and probability of possible successes in 5 trials with 0.3 success per trial.
+dis1 <- bin_distribution(5, 0.3)
+plot.bindis(dis1)
+```
+
+Just like the functions above it, bin_distribution(n, p) can only take an input *n* that is an integer greater than or equal to 0 and a probability *p* that is between 0 and 1.
+
+## bin_cumulative()
+
+The bin_cumulative(n, p) function returns a dataframe similar to that of bin_distribution, but has an additional column that shows the cumulative distribution given each additional success. Given the nature of probabilities, the cumulative probability leading up to *n* successes is 1. The dataframe output is of class '"bincum"'.
+
+```{r}
+#Dataframe with cumulative probability added.
+bin_cumulative(5, 0.3)
+```
+
+After creating the dataframe, users can call on the method *plot* to plot a cumulative line graph of the dataframe given that the dataframe is of class '"bincum"'.
+
+```{r}
+#Cumulative line graph of possible successes and cumulative probability of successes in 5 trials with 0.3 success per trial.
+dis2 <- bin_cumulative(5, 0.5)
+plot.bincum(dis2)
+```
+
+Just like the functions above it, bin_cumulative(n, p) can only take an input *n* that is an integer greater than or equal to 0 and a probability *p* that is between 0 and 1.
+
+## bin_variable()
+
+The bin_variable(n, p) function that returns a named list that is of class '"binvar"' and has the number of trials and probability of success printed out to see.
+
+```{r}
+#Using bin_variable()
+bin1 <- bin_variable(10, 0.3)
+bin1
+```
+
+After using bin_variable to create the named list, users are able to call upon the method *summary* to show the key summary statistics regarding the binomial distribution for that particular number of trials and probability.
+
+```{r}
+#Summary statistics for n = 10 and p = 0.3
+bin1 <- bin_variable(10, 0.3)
+summary(bin1)
+```
+
+Just like the functions above it, bin_variablen, p) can only take an input *n* that is an integer greater than or equal to 0 and a probability *p* that is between 0 and 1.
